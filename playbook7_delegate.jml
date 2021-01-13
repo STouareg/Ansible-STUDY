@@ -1,0 +1,40 @@
+---
+- name: My super Playbook
+  hosts: all
+  become: yes
+
+
+  vars: 
+     mytext: "Hello from TURm@n"
+      
+  tasks:
+  - name: Ping test
+    ping:
+
+  - name: Create file-1 
+    copy: 
+       dest: /home/admturyk/file1.txt
+       content: |
+         This is File Num-1
+         Hello World
+    delegate_to: linux3
+
+  - name: Create file-2
+    copy:
+       dest: /home/admturyk/file2.txt
+       content: |
+         This is File Num-2
+         {{ mytext }}
+
+  - name: Reboot my servers
+    shell: sleep 3 && reboot now
+    async: 1
+    poll: 0
+
+  - name: Wait till my servers will come up online
+    wait_for: 
+         host: "{{ inventory_hostname }}"
+         state: started
+         delay: 5
+         timeout: 40
+    delegate_to: 127.0.0.1

@@ -1,0 +1,15 @@
+[PROD]
+linux1   ansible_host=192.168.110.101 owner=Sergii
+
+
+[STAGING]
+linux2   ansible_host=192.168.110.102 owner=Petya 
+linux3   ansible_host=192.168.110.103 owner=Vasia
+
+[ALL_LINUX:children]
+PROD
+STAGING
+
+
+
+
